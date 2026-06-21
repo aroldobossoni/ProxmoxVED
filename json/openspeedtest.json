@@ -1,0 +1,47 @@
+{
+  "name": "OpenSpeedTest",
+  "slug": "openspeedtest",
+  "categories": [
+    4,
+    9
+  ],
+  "date_created": "2026-06-21",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "has_arm": true,
+  "interface_port": 3000,
+  "documentation": "https://github.com/openspeedtest/Speed-Test",
+  "website": "https://openspeedtest.com/selfhosted-speedtest",
+  "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/openspeedtest.webp",
+  "config_path": "/etc/nginx/http.d/openspeedtest.conf",
+  "description": "Free and open-source HTML5 network speed test for LAN and WAN. Self-hosted static app served by nginx with optional HTTPS on port 3001.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/openspeedtest.sh",
+      "config_path": "/etc/nginx/http.d/openspeedtest.conf",
+      "resources": {
+        "cpu": 1,
+        "ram": 512,
+        "hdd": 2,
+        "os": "Alpine",
+        "version": "3.21"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "HTTP is available on port 3000. HTTPS uses a self-signed certificate on port 3001.",
+      "type": "info"
+    },
+    {
+      "text": "Place a reverse proxy in front for public HTTPS with a trusted certificate.",
+      "type": "info"
+    }
+  ]
+}
