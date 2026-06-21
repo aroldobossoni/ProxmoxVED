@@ -19,7 +19,7 @@ msg_ok "Installed Dependencies"
 
 fetch_and_deploy_gh_release "openspeedtest" "openspeedtest/Docker-Image" "tarball" "latest" "/opt/openspeedtest"
 
-msg_info "Setting up OpenSpeedTest"
+msg_info "Installing OpenSpeedTest"
 mkdir -p /opt/openspeedtest/www /etc/ssl
 cp -a /opt/openspeedtest/files/www/. /opt/openspeedtest/www/
 cp /opt/openspeedtest/files/nginx.crt /opt/openspeedtest/files/nginx.key /etc/ssl/
@@ -31,7 +31,7 @@ sed \
   /opt/openspeedtest/files/OpenSpeedTest-Server.conf >/etc/nginx/http.d/openspeedtest.conf
 $STD rc-update add nginx default
 $STD rc-service nginx start
-msg_ok "Set up OpenSpeedTest"
+msg_ok "Installed OpenSpeedTest"
 
 motd_ssh
 customize
