@@ -4603,6 +4603,11 @@ EOF
   # Continue with standard container setup
   if [ "$var_os" == "alpine" ]; then
     sleep 3
+    # Detect broken DNS resolver (e.g. Tailscale MagicDNS) and inject public DNS
+    if ! pct exec "$CTID" -- ping -c 1 -W 3 dl-cdn.alpinelinux.org >/dev/null 2>&1; then
+      msg_warn "Alpine repository DNS resolution failed in container, injecting public DNS servers"
+      pct exec "$CTID" -- ash -c "printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\n' >/etc/resolv.conf"
+    fi
     pct exec "$CTID" -- /bin/sh -c 'cat <<EOF >/etc/apk/repositories
 http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
 http://dl-cdn.alpinelinux.org/alpine/latest-stable/community

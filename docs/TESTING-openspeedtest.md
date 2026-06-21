@@ -3,11 +3,14 @@
 ## Install (fork branch)
 
 ```bash
+# Limpe job suspenso (Ctrl+Z) se existir: kill %1
+
+var_ns=8.8.8.8 \
 COMMUNITY_SCRIPTS_URL=https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest \
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest/ct/alpine-openspeedtest.sh)"
 ```
 
-`COMMUNITY_SCRIPTS_URL` is required while testing from a fork branch so `build.func` loads `install/alpine-openspeedtest-install.sh` from your fork.
+`COMMUNITY_SCRIPTS_URL` must point to your fork branch so `build.func` (with Alpine DNS fix) and `install/alpine-openspeedtest-install.sh` load from the same place.
 
 ## Verify
 
