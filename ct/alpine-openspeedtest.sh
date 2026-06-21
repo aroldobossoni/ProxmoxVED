@@ -20,39 +20,59 @@ color
 catch_errors
 
 function update_script() {
-  header_info
-
   if [[ ! -d /opt/openspeedtest/files ]]; then
     msg_error "No ${APP} Installation Found!"
     exit
   fi
 
-  if check_for_gh_release "openspeedtest" "openspeedtest/Docker-Image"; then
-    msg_info "Stopping Service"
-    $STD rc-service nginx stop
-    msg_ok "Stopped Service"
+  CHOICE=$(msg_menu "OpenSpeedTest Options" \
+    "1" "Update Alpine Packages" \
+    "2" "Update OpenSpeedTest Application" \
+    "3" "Renew Self-signed Certificate")
 
-    CLEAN_INSTALL=1 fetch_and_deploy_gh_release "openspeedtest" "openspeedtest/Docker-Image" "tarball" "latest" "/opt/openspeedtest"
-
-    msg_info "Configuring ${APP}"
-    mkdir -p /opt/openspeedtest/www /etc/ssl
-    rm -rf /opt/openspeedtest/www/*
-    cp -a /opt/openspeedtest/files/www/. /opt/openspeedtest/www/
-    cp /opt/openspeedtest/files/nginx.crt /opt/openspeedtest/files/nginx.key /etc/ssl/
-    chmod 755 /opt/openspeedtest/www/downloading /opt/openspeedtest/www/upload 2>/dev/null || true
-    chown -R nginx:nginx /opt/openspeedtest/www
-    rm -f /etc/nginx/http.d/default.conf
-    sed \
-      -e 's|root /usr/share/nginx/html/|root /opt/openspeedtest/www/|g' \
-      /opt/openspeedtest/files/OpenSpeedTest-Server.conf >/etc/nginx/http.d/openspeedtest.conf
-    msg_ok "Configured ${APP}"
-
-    msg_info "Starting Service"
-    $STD rc-service nginx start
-    msg_ok "Started Service"
+  case $CHOICE in
+  1)
+    msg_info "Updating Alpine Packages"
+    $STD apk -U upgrade
+    msg_ok "Updated Alpine Packages"
     msg_ok "Updated successfully!"
-  fi
-  exit 0
+    exit
+    ;;
+  2)
+    if check_for_gh_release "openspeedtest" "openspeedtest/Docker-Image"; then
+      msg_info "Stopping Service"
+      $STD rc-service nginx stop
+      msg_ok "Stopped Service"
+
+      CLEAN_INSTALL=1 fetch_and_deploy_gh_release "openspeedtest" "openspeedtest/Docker-Image" "tarball" "latest" "/opt/openspeedtest"
+
+      msg_info "Configuring ${APP}"
+      mkdir -p /opt/openspeedtest/www /etc/ssl
+      rm -rf /opt/openspeedtest/www/*
+      cp -a /opt/openspeedtest/files/www/. /opt/openspeedtest/www/
+      cp /opt/openspeedtest/files/nginx.crt /opt/openspeedtest/files/nginx.key /etc/ssl/
+      chmod 755 /opt/openspeedtest/www/downloading /opt/openspeedtest/www/upload 2>/dev/null || true
+      chown -R nginx:nginx /opt/openspeedtest/www
+      rm -f /etc/nginx/http.d/default.conf
+      sed \
+        -e 's|root /usr/share/nginx/html/|root /opt/openspeedtest/www/|g' \
+        /opt/openspeedtest/files/OpenSpeedTest-Server.conf >/etc/nginx/http.d/openspeedtest.conf
+      msg_ok "Configured ${APP}"
+
+      msg_info "Starting Service"
+      $STD rc-service nginx start
+      msg_ok "Started Service"
+      msg_ok "Updated successfully!"
+    fi
+    exit
+    ;;
+  3)
+    cp /opt/openspeedtest/files/nginx.crt /opt/openspeedtest/files/nginx.key /etc/ssl/
+    $STD rc-service nginx restart
+    msg_ok "Renewed self-signed certificate"
+    exit
+    ;;
+  esac
 }
 
 start
@@ -60,7 +80,6 @@ build_container
 description
 
 msg_ok "Completed successfully!\n"
-echo -e "${CREATING}${GN}${APP} setup has been successfully initialized!${CL}"
-echo -e "${INFO}${YW} Access it using the following URLs:${CL}"
-echo -e "${TAB}${GATEWAY}${BGN}http://${IP}:3000${CL}"
-echo -e "${TAB}${GATEWAY}${BGN}https://${IP}:3001${CL} ${YW}(self-signed certificate)${CL}"
+echo -e "${APP} should be reachable by going to the following URLs.
+         ${BL}http://${IP}:3000${CL}
+         ${BL}https://${IP}:3001${CL} (self-signed)\n"

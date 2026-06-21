@@ -14,7 +14,8 @@ network_check
 update_os
 
 msg_info "Installing Dependencies"
-$STD apk add --no-cache nginx
+$STD apk add openssl
+$STD apk add nginx
 msg_ok "Installed Dependencies"
 
 fetch_and_deploy_gh_release "openspeedtest" "openspeedtest/Docker-Image" "tarball" "latest" "/opt/openspeedtest"
@@ -29,13 +30,12 @@ rm -f /etc/nginx/http.d/default.conf
 sed \
   -e 's|root /usr/share/nginx/html/|root /opt/openspeedtest/www/|g' \
   /opt/openspeedtest/files/OpenSpeedTest-Server.conf >/etc/nginx/http.d/openspeedtest.conf
-$STD rc-update add nginx default
-$STD rc-service nginx start
 msg_ok "Installed OpenSpeedTest"
+
+msg_info "Starting Services"
+$STD rc-service nginx start
+$STD rc-update add nginx default
+msg_ok "Started Services"
 
 motd_ssh
 customize
-
-msg_info "Cleaning up"
-$STD apk cache clean
-msg_ok "Cleaned"

@@ -17,9 +17,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED
 
 ## Update
 
-```bash
-COMMUNITY_SCRIPTS_URL=https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest \
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest/ct/alpine-openspeedtest.sh)"
-```
+Run the CT script again and choose an option from the menu:
 
-Select update when prompted, or use `/usr/bin/update` inside the container after promotion to ProxmoxVE.
+- **Update Alpine Packages**
+- **Update OpenSpeedTest Application**
+- **Renew Self-signed Certificate**
