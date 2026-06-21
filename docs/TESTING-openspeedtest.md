@@ -9,8 +9,11 @@
 ## Install
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/ProxmoxVED/feat/openspeedtest/ct/openspeedtest.sh)"
+COMMUNITY_SCRIPTS_URL=https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest \
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest/ct/openspeedtest.sh)"
 ```
+
+`COMMUNITY_SCRIPTS_URL` is required while testing from a fork branch so `build.func` loads `install/openspeedtest-install.sh` from your fork, not from upstream `main`.
 
 ## Verify
 
@@ -23,7 +26,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/ProxmoxVED
 Inside the LXC or from Proxmox host update flow:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/ProxmoxVED/feat/openspeedtest/ct/openspeedtest.sh)"
+COMMUNITY_SCRIPTS_URL=https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest \
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/aroldobossoni/ProxmoxVED/feat/openspeedtest/ct/openspeedtest.sh)"
 ```
+
+`COMMUNITY_SCRIPTS_URL` is required while testing from a fork branch so `build.func` loads `install/openspeedtest-install.sh` from your fork, not from upstream `main`.
 
 Select update when prompted, or use the container `/usr/bin/update` helper after promotion to ProxmoxVE.

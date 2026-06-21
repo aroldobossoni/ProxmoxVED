@@ -2,7 +2,7 @@
 
 # Copyright (c) 2021-2026 community-scripts ORG
 # Author: aroldobossoni (aroldobossoni)
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
 # Source: https://openspeedtest.com/selfhosted-speedtest | https://github.com/openspeedtest/Docker-Image
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
